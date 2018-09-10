@@ -1,0 +1,66 @@
+﻿@model IEnumerable<FlightWeb.Models.Consumption>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+@{
+    ViewBag.Title = "Consumption List";
+    var pagedlist = (PagedList.IPagedList)Model;
+}
+
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading"><strong> Consumption List</strong></div>
+    <div class="panel-body">
+       
+
+      
+
+
+        <table class="table table-striped">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Flight.FlightName)</th>
+                <th>@Html.DisplayNameFor(model => model.ConsumPerDistance)</th>
+                <th>@Html.DisplayNameFor(model => model.ConsumPerTime)</th>
+                <th>@Html.DisplayNameFor(model => model.TakeoffEffort)</th>
+                <th></th>
+
+            </tr>
+
+            @foreach (var item in Model)
+            {
+
+
+            <tr>
+                <td>@Html.DisplayFor(mitem => item.Flight.FlightName)</td>
+                <td>@Html.DisplayFor(mitem => item.ConsumPerDistance)</td>
+                <td>@Html.DisplayFor(mitem => item.ConsumPerTime)</td>
+                <td>@Html.DisplayFor(mitem => item.TakeoffEffort)</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = item.ConsumptionId }, new { @class = "btn btn-success", @style = "color:white" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ConsumptionId }, new { @class = "btn btn-danger", @style = "color:white" })
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ConsumptionId }, new { @class = "btn btn-primary", @style = "color:white" })
+
+</tr>
+            }
+
+        </table>
+    </div>
+
+
+    <div class="panel-footer">
+        Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) of @pagedlist.PageCount
+
+        @Html.PagedListPager(pagedlist, page => Url.Action("Index",
+                     new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    </div>
+
+
+</div>
+
+
+
+
+
+ 

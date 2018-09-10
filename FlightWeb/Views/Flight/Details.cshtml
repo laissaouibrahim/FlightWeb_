@@ -1,0 +1,106 @@
+﻿@model FlightWeb.Models.Flight
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading panel-head">Flight Details of <strong> @Html.DisplayFor(model => model.FlightName)</strong></div>
+    <div class="panel-body">
+
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.FlightName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FlightName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Departure)
+                </dt>
+
+                <dd>
+                    <div id="Departure">
+                        @Html.DisplayFor(model => model.Departure)
+                    </div>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Destination)
+                </dt>
+
+                <dd>
+                    <div id="Destination">
+                        @Html.DisplayFor(model => model.Destination)
+                    </div>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FlightDistance)
+                </dt>
+
+                <dd>
+                    <div id="Destination">
+                        @Html.DisplayFor(model => model.FlightDistance)
+                    </div>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.FlightTime)
+                </dt>
+
+                <dd>
+                    <div id="Destination">
+                        @Html.DisplayFor(model => model.FlightTime)
+                    </div>
+                </dd>
+
+
+            </dl>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.FlightId }, new { @class = "btn btn-primary" }) &nbsp;
+                @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-success" })
+            </div>
+        </div>
+
+        <hr />
+        <div class="form-group">
+            <div class="col-md-6" id="directions_panel" style="background-color:#E0FFFF;"></div>
+        </div>
+    </div>
+      
+    </div>
+
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading panel-head"><strong>Google Maps</strong></div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div id="map_canvas" style="height:400px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        initialize($("#Departure").text(), $("#Destination").text());
+    });
+     
+</script>
+
+
+
+
+
+

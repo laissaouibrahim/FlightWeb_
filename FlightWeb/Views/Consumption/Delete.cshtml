@@ -1,0 +1,57 @@
+﻿@model FlightWeb.Models.Consumption
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading panel-head"><strong> Delete Consumption</strong></div>
+    <div class="panel-body">
+
+        <h3>Are you sure you want to delete this Fuel Consumption?</h3>
+        <div>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumPerDistance)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumPerDistance)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumPerTime)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumPerTime)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TakeoffEffort)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TakeoffEffort)
+                </dd>
+
+            </dl>
+
+            @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color col-sm-offset-1 col-sm-10">
+            <input type="submit" value="Delete" class="btn btn-danger" /> &nbsp;
+            @Html.ActionLink("Back to List", "Index", "", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+}
+        </div>
+    </div>
+</div>
+
+
+
+
+ 

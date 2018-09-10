@@ -1,0 +1,103 @@
+﻿@model IEnumerable<FlightWeb.Models.Flight>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+@{
+    ViewBag.Title = "Flight List";
+    var pagedlist = (PagedList.IPagedList)Model;
+}
+
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading"><strong> Flight List</strong></div>
+    <div class="panel-body">
+        <p>
+            @Html.ActionLink("Add New Flight", "Create", "", htmlAttributes: new { @class = "btn btn-success" })
+            <input type="button" value="Summary Report" class="btn btn-primary" style="color:white;" onclick="location.href='@Url.Action("LoadReport", "Flight")'" />
+
+        </p>
+
+        @using (Html.BeginForm("Index", "Flight", FormMethod.Post))
+    {
+        <p>
+            Flight Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+            <input type="submit" value="Search" />
+        </p>
+} 
+        <table class="table table-striped">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.FlightName)</th>
+                <th>@Html.DisplayNameFor(model => model.Departure)</th>
+                <th>@Html.DisplayNameFor(model => model.Destination)</th>
+                <th></th>
+
+            </tr>
+
+            @foreach (var item in Model)
+        {
+
+
+            <tr>
+                <td>@Html.DisplayFor(mitem => item.FlightName)</td>
+                <td>@Html.DisplayFor(mitem => item.Departure)</td>
+                <td>@Html.DisplayFor(mitem => item.Destination)</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.FlightId }, new { @class = "btn btn-primary", @style = "color:white" })
+                    @Html.ActionLink("Details", "Details", new { id = item.FlightId }, new { @class = "btn btn-success", @style = "color:white" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.FlightId }, new { @class = "btn btn-danger", @style = "color:white" })
+                    @Html.ActionLink("Fuel Consumption", "Create", "Consumption", new { id = item.FlightId }, new { @class = "btn btn-warning", @style = "color:white" })
+            </tr>
+    }
+
+        </table>
+    </div>
+
+
+    <div class="panel-footer">
+        Page @(pagedlist.PageCount < pagedlist.PageNumber ? 0 : pagedlist.PageNumber) of @pagedlist.PageCount
+
+        @Html.PagedListPager(pagedlist, page => Url.Action("Index",
+                new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+    </div>
+
+
+</div>
+
+<script>
+    var AirportsList;
+    function readTextFile(file, callback) {
+        var rawFile = new XMLHttpRequest();
+        rawFile.overrideMimeType("application/json");
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function () {
+            if (rawFile.readyState === 4 && rawFile.status == "200") {
+                callback(rawFile.responseText);
+            }
+        }
+        rawFile.send(null);
+    }
+
+    //usage:
+    readTextFile("/airportsFR.json", function (text) {
+        if (sessionStorage.getItem("AirportsFR") === null) {
+        //    var data = JSON.parse(text);
+        //    console.log(data);
+            sessionStorage.setItem("AirportsFR", text);
+        }
+    });
+
+    function getAiroportName(code){
+
+         AirportsList = sessionStorage.getItem("AirportsFR");
+        if (AirportsList === null) {
+            for (var i = 0; i < AirportsList.length; i++) {
+                if (code = AirportList[i]["iata"]) return AirportList[i]["name"];
+            }
+        }
+    };
+
+            </script>
+
+

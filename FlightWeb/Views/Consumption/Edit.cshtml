@@ -1,0 +1,106 @@
+﻿@model FlightWeb.Models.Consumption
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading panel-head">Edit Consumption Details  of <strong> @Html.DisplayFor(model => model.Flight.FlightName)</strong></div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <div class="form-horizontal panel-body">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ConsumptionId)
+            @Html.HiddenFor(model => model.FlightId)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConsumPerDistance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.ConsumPerDistance, new { htmlAttributes = new { @class = "form-control", @onchange = "calculate()" } })
+                    @Html.ValidationMessageFor(model => model.ConsumPerDistance, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Flight.FlightDistance, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4 ClassFlightDistance" style="Margin-top:6px;">
+                    @Html.DisplayFor(model => model.Flight.FlightDistance)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConsumPerTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.ConsumPerTime, new { htmlAttributes = new { @class = "form-control", @onchange = "calculate()" } })
+                    @Html.ValidationMessageFor(model => model.ConsumPerTime, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Flight.FlightTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4 ClassFlightTime" style="Margin-top:6px;">
+                    @Html.DisplayFor(model => model.Flight.FlightTime)
+                </div>
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TakeoffEffort, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.EditorFor(model => model.TakeoffEffort, new { htmlAttributes = new { @class = "form-control", @onchange = "calculate()" } })
+                    @Html.ValidationMessageFor(model => model.TakeoffEffort, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Fuel, htmlAttributes: new { @class = "control-label col-md-2", @style = "font-size:20px;margin-top:20px;" })
+                <label class="control-label col-md-2" id="result" style="font-size:40px;background-color:#E0FFFF;"></label>
+                @Html.HiddenFor(model => model.Fuel)
+            </div>
+           
+            <div class="form-group">
+                @Html.Label("Calcul par :", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4" style="Margin-top:4px;">
+                    Distance
+                    @Html.RadioButton("MethodCalcul", "0",true)
+                    Time
+                    @Html.RadioButton("MethodCalcul", "1")
+                </div>
+            </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Save" class="btn btn-success" />
+                        @Html.ActionLink("Return to List", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+
+                <div class="col-md-6" id="directions_panel" style="background-color:#E0FFFF;"></div>
+
+            </div>
+            }
+
+        </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        calculate();
+    });
+    $('input[type=radio][name=MethodCalcul]').change(function () {
+        calculate();
+    });
+
+    function calculate(){
+        if ($.isNumeric($("#ConsumPerDistance").val()) && $.isNumeric($("#ConsumPerTime").val()) && $.isNumeric($("#TakeoffEffort").val()) && $.isNumeric($(".ClassFlightTime").text()) && $.isNumeric($(".ClassFlightDistance").text()) && $.isNumeric($("#MethodCalcul:checked").val())){
+            $.post("/Consumption/calculate", { ConsumPerDistance: $("#ConsumPerDistance").val(), ConsumPerTime: $("#ConsumPerTime").val(), TakeoffEffort: $("#TakeoffEffort").val(), FlightTime: $(".ClassFlightTime").text(), FlightDistance: $(".ClassFlightDistance").text(), MethodCalcul: $("#MethodCalcul:checked").val() },
+                function (data) {
+                    $('#result').text(data);
+                    $('#Fuel').val(data)
+                })
+            }  
+        }
+
+</script> 
+
+
+
+ 

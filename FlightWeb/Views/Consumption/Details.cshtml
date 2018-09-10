@@ -1,0 +1,65 @@
+﻿@model FlightWeb.Models.Consumption
+
+@{
+    ViewBag.Title = "Consumption Details";
+}
+
+<div class="repository-app panel panel-primary">
+    <div class="panel-heading panel-head">Consumption Details of <strong> @Html.DisplayFor(model => model.Flight.FlightName)</strong></div>
+    <div class="panel-body">
+
+        <div>
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Flight.FlightName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Flight.FlightName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumPerDistance)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumPerDistance)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ConsumPerTime)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ConsumPerTime)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TakeoffEffort)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TakeoffEffort)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Fuel)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Fuel)
+                </dd>
+                
+            </dl>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ConsumptionId }, new { @class = "btn btn-primary" }) &nbsp;
+                @Html.ActionLink("Back to List", "Index", "", new { @class = "btn btn-success" })
+            </div>
+        </div>
+
+    </div>
+</div>
+
