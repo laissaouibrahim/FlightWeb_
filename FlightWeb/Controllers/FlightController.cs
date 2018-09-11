@@ -11,24 +11,33 @@ using System.IO;
 using System.Text;
 using FlightWeb.Reports;
 using AutoMapper;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace FlightWeb.Controllers
 {
     public class FlightController : Controller
     {
+
+         
+
         private ICustomRepository<Flight> empRepository = null;
-        private ICustomRepository<Consumption> empRepository2 = null; 
+        private ICustomRepository<Consumption> empRepository2 = null;
+
         public FlightController()
         {
             this.empRepository = new MyCustomRepository<Flight>();
             this.empRepository2 = new MyCustomRepository<Consumption>();
         }
+        public FlightController(ICustomRepository<Flight> repository)
+        {
+            empRepository = repository;
+        }
 
-         
         // GET: Flight
         public ActionResult Index(string thisFilter, string searchString, int? page)
         {
-           // var photomodel = new PhotoViewModel();
+ 
 
             if (searchString != null)
             {
@@ -170,6 +179,33 @@ namespace FlightWeb.Controllers
 
             return File(s, "application/pdf");
 
+
+        }
+
+        public ActionResult LoadReport2()
+        {
+            var Consumptions = from emp2 in empRepository2.GetAllData()
+                               select emp2;
+            SummaryReport rpt = new SummaryReport();
+            List<SummaryRep> model = new List<SummaryRep>();
+            model = (List<SummaryRep>)AutoMapper.Mapper.Map(Consumptions, model, typeof(IEnumerable<Consumption>), typeof(List<SummaryRep>));
+
+            var gv = new GridView();
+            gv.DataSource = model;
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter objStringWriter = new StringWriter();
+            HtmlTextWriter objHtmlTextWriter = new HtmlTextWriter(objStringWriter);
+            gv.RenderControl(objHtmlTextWriter);
+            Response.Output.Write(objStringWriter.ToString());
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Index");
 
         }
     }

@@ -25,7 +25,10 @@ namespace FlightWeb.Controllers
             this.empRepository = new MyCustomRepository<Consumption>();
             this.empRepository2 = new MyCustomRepository<Flight>();
         }
-      
+        public ConsumptionController(ICustomRepository<Consumption> repository)
+        {
+            empRepository = repository;
+        }
 
         // GET: Consumption
         public ActionResult Index(string thisFilter, string searchString, int? page)
@@ -43,9 +46,7 @@ namespace FlightWeb.Controllers
             ViewBag.CurrentFilter = searchString;
             var Consumptions = empRepository.SelectDataById2(x => x.Flight);
 
-            //var Consumptions = from emp in empRepository.GetAllData()
-                         // select emp;
-            
+             
 
             int pageSize = 4;
             int pageNumber = (page ?? 1);

@@ -15,6 +15,7 @@
         <p>
             @Html.ActionLink("Add New Flight", "Create", "", htmlAttributes: new { @class = "btn btn-success" })
             <input type="button" value="Summary Report" class="btn btn-primary" style="color:white;" onclick="location.href='@Url.Action("LoadReport", "Flight")'" />
+            <input type="button" value="Report (Excel)" class="btn btn-primary" style="color:white;" onclick="location.href='@Url.Action("LoadReport2", "Flight")'" />
 
         </p>
 
