@@ -12,5 +12,6 @@ Used Libraries:
 - Google Maps API
 - PageList
 - AutoMapper.
+
 Note: I used JsonFile (airportsFR.json) to load list of airports in DropdownLists (Departure &
 Destination). Another approach is to use WebAPI.
