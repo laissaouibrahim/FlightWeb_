@@ -2,6 +2,7 @@
 
 Architecture:
 - ASP.NET MVC5 (Framework 4.5.2)
+- Front : Bootstrap v3 
 - Pattern Used: Generic Repository Pattern
 - BDD: EF 6.1 CodeFirst.
 - Reporting: Crystal report
